@@ -32,6 +32,7 @@
     "dnd",
     "notifications",
     "volume",
+    "backlight",
     "buttons-grid"
   ],
   "widget-config": {
@@ -49,6 +50,10 @@
     "volume": {
       "label": "󰕾"
     },
+    "backlight": {
+      "label": "󰃟",
+      "device": "amdgpu_bl1"
+    },
     "buttons-grid": {
       "buttons-per-row": 4,
       "actions": [
@@ -64,7 +69,7 @@
         },
         {
           "label": "",
-          "command": "swaync-client -cp && hyprshot -m region -f $(date +%Y-%m-%d_%H-%M-%S).png -o ~/Pictures/screenshots"
+          "command": "swaync-client -cp && hyprshot -m region -f $(date +%Y-%m-%d_%H-%M-%S).jpg -o ~/Pictures/screenshots"
         },
         {
           "label": "",
