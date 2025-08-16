@@ -1,0 +1,32 @@
+{
+  "group/group-hardware": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 400,
+      "children-class": "extras",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/menu", "cpu", "memory", "temperature", "disk"]
+  },
+  "custom/menu": {
+    "format": "󰮫",
+    "tooltip": false
+  },
+  "cpu": {
+    "format": "󰍛",
+    "tooltip": true
+  },
+  "memory": {
+    "format": "",
+    "tooltip": true
+  },
+  "disk": {
+    "format": "",
+    "tooltip": true
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "",
+    "tooltip": true
+  }
+}

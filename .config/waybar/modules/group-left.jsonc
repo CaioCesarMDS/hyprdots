@@ -1,0 +1,26 @@
+{
+  "group/group-left": {
+    "orientation": "inherit",
+    "modules": ["custom/notification", "clock", "tray"]
+  },
+  "custom/notification": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "swaync-client -t -sw",
+    "escape": true
+  },
+  "clock": {
+    "format": "{:%H:%M:%S}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "format": {
+        "today": "<span color='#fAfBfC'><b>{}</b></span>"
+      }
+    },
+    "interval": 1
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  }
+}

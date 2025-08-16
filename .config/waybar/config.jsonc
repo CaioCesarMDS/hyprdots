@@ -1,0 +1,13 @@
+{
+  "layer": "top",
+  "position": "top",
+  "reload_style_on_change": true,
+  "include": [
+    "$XDG_CONFIG_HOME/waybar/modules/group-right.jsonc",
+    "$XDG_CONFIG_HOME/waybar/modules/group-left.jsonc",
+    "$XDG_CONFIG_HOME/waybar/modules/group-center.jsonc"
+  ],
+  "modules-left": ["group/group-left"],
+  "modules-center": ["group/group-center"],
+  "modules-right": ["group/group-right"]
+}

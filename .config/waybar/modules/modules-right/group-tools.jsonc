@@ -1,0 +1,38 @@
+{
+  "group/group-tools": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 400,
+      "children-class": "extras",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/tools", "custom/cliphist", "custom/colorpicker", "custom/bluefilter"]
+  },
+  "custom/tools": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/cliphist": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "cliphist list | wofi -dmenu | cliphist decode | wl-copy",
+    "on-click-right": "cliphist wipe && notify-send 'History Wiped!'"
+  },
+  "custom/colorpicker": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": "once",
+    "tooltip": true,
+    "on-click": "~/.config/waybar/scripts/colorpicker.sh",
+    "exec": "~/.config/waybar/scripts/colorpicker.sh -j",
+    "signal": 1
+  },
+  "custom/bluefilter": {
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "bash ~/.config/waybar/scripts/hyprsunset_toggle.sh --toggle",
+    "exec": "bash ~/.config/waybar/scripts/hyprsunset_toggle.sh",
+    "interval": 1,
+    "signal": 1
+  }
+}
