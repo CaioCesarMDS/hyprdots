@@ -1,9 +1,8 @@
 # ============================================================================
 # Main Zsh Configuration File
 #
-# This file is loaded for interactive Zsh shells only. It is responsible for
-# importing modular configuration files, setting up the environment, and
-# customizing the shell experience.
+# This file is loaded for interactive Zsh shells and is responsible for
+# importing modular configuration files.
 # ============================================================================
 
 # Prevent multiple loads
@@ -11,7 +10,7 @@
 export ZSHRC_LOADED=1
 
 # --- Modular configuration ---
-modules=(
+files=(
   "config.zsh"
   "plugins.zsh"
   "aliases.zsh"
@@ -20,6 +19,6 @@ modules=(
 )
 
 # Load each module if it exists
-for file in "${modules[@]}"; do
+for file in "${files[@]}"; do
   [[ -f "$ZDOTDIR/$file" ]] && source "$ZDOTDIR/$file"
 done

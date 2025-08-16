@@ -1,8 +1,8 @@
-# ============================================================================
-# Zsh Plugins Configuration (.plugins.zsh)
+# ===================================
+# Plugins Configuration
 #
-# Loads and configures Zsh plugins using Zinit. Also sets up completion styles.
-# ============================================================================
+# Loads and configures Zsh plugins.
+# ===================================
 
 # --- Zinit (Plugin Manager) ---
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -20,14 +20,15 @@ zinit light MichaelAquilina/zsh-you-should-use
 
 zinit snippet OMZP::git
 
-# --- Completion Fix & Style ---
-# Remove broken or outdated completion dump files, then initialize completion system
-if [ ! -f ~/.zcompdump ] || grep -q "_complete" ~/.zcompdump 2>/dev/null; then
-  rm -f ~/.zcompdump*
-fi
-autoload -U compinit && compinit -C
+# --- Completion Fix ---
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+mkdir -p "$ZSH_CACHE_DIR"
 
-# Completion style settings
+autoload -Uz compinit
+compinit -d "$ZSH_CACHE_DIR/zcompdump"
+zinit cdreplay -q
+
+# --- Completion Style ---
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:completion:cd:*' fzf-preview use-cache 'ls --color $realpath'

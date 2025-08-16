@@ -1,10 +1,10 @@
 # =========================================
-# Zsh Functions Configuration
+# Functions Configuration
 #
 # Contains commonly used functions for Zsh
 # =========================================
 
-# Add a directory to PATH, avoiding duplicates
+# --- Add a directory to PATH, avoiding duplicates ---
 add_to_path() {
   local dir="$1"
   local current
@@ -29,7 +29,7 @@ add_to_path() {
   export PATH
 }
 
-# Update system tools
+# --- Update system tools ---
 update() {
   echo "Updating system tools..."
   sudo pacman -Syu --noconfirm
@@ -38,7 +38,7 @@ update() {
   echo "Everything's is up to date!"
 }
 
-# Extract files from various formats
+# --- Extract files from various formats ---
 extract() {
   if [ -f "$1" ]; then
     case "$1" in

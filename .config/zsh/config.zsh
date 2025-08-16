@@ -1,5 +1,5 @@
 # ============================================================================
-# Zsh General Configuration (.config.zsh)
+# General Configuration
 #
 # Sets general Zsh options, shell behavior, and history settings for all
 # interactive shells. Adjust these to customize your shell experience.

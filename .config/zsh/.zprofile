@@ -8,7 +8,7 @@
 # Load custom functions
 [[ -f "$ZDOTDIR/functions.zsh" ]] && source "$ZDOTDIR/functions.zsh"
 
-# Add user directories to PATH 
+# --- Add user directories to PATH ---
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/bin"
 

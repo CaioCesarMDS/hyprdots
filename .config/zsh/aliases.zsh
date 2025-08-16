@@ -1,10 +1,10 @@
 # =========================================
-# Zsh Aliases Configuration
+# Aliases Configuration
 #
 # Contains commonly used aliases for Zsh
 # =========================================
 
-# --- Utility (eza) ---
+# --- Utility ---
 alias ls='eza --icons=always --color=always --no-filesize --no-time --no-user --no-permissions'
 alias la='eza -a --color=always --group-directories-first --icons'
 alias lah='eza -lah --color=always --group-directories-first --icons --git --time-style=long-iso'
