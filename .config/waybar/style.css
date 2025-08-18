@@ -27,6 +27,7 @@ tooltip {
 #memory:hover,
 #disk:hover,
 #temperature:hover,
+#custom-tools:hover,
 #custom-cliphist:hover,
 #custom-bluefilter:hover,
 #bluetooth:hover,
@@ -70,23 +71,23 @@ tooltip {
 
 #workspaces button {
   padding: 0 0.4rem;
-  color: alpha(@color9, 0.8);
+  color: alpha(@color9, 0.4);
   transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-  opacity: 0.4;
+  color: rgba(0, 0, 0, 0);
   text-shadow: 0px 0px 1.5px rgba(0, 0, 0, 0.5);
   transition: all 0.5s ease;
 }
 
 #workspaces button.active {
-  color: alpha(@foreground, 0.9);
+  color: @color9;
   text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
 #workspaces button.empty {
-  color: alpha(@color9, 0.3);
+  color: rgba(0, 0, 0, 0);
   text-shadow: 0px 0px 1.5px rgba(0, 0, 0, 0.2);
 }
 
@@ -97,7 +98,7 @@ tooltip {
 }
 
 #workspaces button.empty.active {
-  color: alpha(@foreground, 0.9);
+  color: @color9;
   text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
