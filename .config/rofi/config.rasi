@@ -6,9 +6,6 @@
 /* ---- Load colors ---- */
 @theme "~/.config/rofi/colors.rasi"
 
-/* ---- Load wallpaper ---- */
-@import "~/.cache/ml4w/hyprland-dotfiles/current_wallpaper.rasi"
-
 configuration {
     modi:                       "drun,filebrowser,window,run";
     show-icons:                 true;
@@ -17,7 +14,7 @@ configuration {
     display-window:             " ";
     display-run:                " ";
 	drun-display-format:        "{name}";
-    hover-select:               true;
+    hover-select:               false;
     window-format:              "{w} · {c} · {t}";
     font:                       "JetBrainsMono Nerd Font 10";
     icon-theme:                 "Papirus";
@@ -30,9 +27,9 @@ window {
     fullscreen:                  false;
     enabled:                     true;
     cursor:                      "default";
-    border:                      2px;
-    border-color:                @primary;
-    border-radius:               10px;
+    border:                      1px;
+    border-color:                @window-border;
+    border-radius:               0.5em;
     background-color:            @background;
 }
 
@@ -43,7 +40,7 @@ mainbox {
     orientation:                 horizontal;
     children:                    [ "imagebox" , "listbox" ];
     background-color:            transparent;
-    background-image:            url("/home/caio/Wallpaper/clouds.jpg");
+    background-image:            url("~/Wallpapers/clouds.jpg");
 }
 
 imagebox {
@@ -57,7 +54,6 @@ dummy {
     background-color:            transparent;
 }
 
-// Modes //
 mode-switcher {
     orientation:                 horizontal;
     width:                       6.6em;
@@ -72,7 +68,7 @@ button {
     border-radius:               2em;
     border:                      0;
     cursor:                      pointer;
-    background-color:            @surface;
+    background-color:            @background;
     text-color:                  @on-surface;
 }
 
@@ -83,7 +79,6 @@ button selected {
     text-color:                  @on-surface;
 }
 
-// Inputs //
 inputbar {
     enabled:                     true;
     margin: 1em;

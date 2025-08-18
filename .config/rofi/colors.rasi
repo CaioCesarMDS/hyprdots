@@ -1,48 +1,66 @@
 * {
-    background: rgba(255, 255, 255, 0.7);
-    primary: #006973;
-    primary-fixed: #9eeffc;
-    primary-fixed-dim: #81d3e0;
-    on-primary: #ffffff;
-    on-primary-fixed: #001f24;
-    on-primary-fixed-variant: #004f57;
-    primary-container: #9eeffc;
-    on-primary-container: #001f24;
-    secondary: #4a6266;
-    secondary-fixed: #cde7ec;
-    secondary-fixed-dim: #b1cbd0;
-    on-secondary: #ffffff;
-    on-secondary-fixed: #051f22;
-    on-secondary-fixed-variant: #334b4f;
-    secondary-container: #cde7ec;
-    on-secondary-container: #051f22;
-    tertiary: #525e7d;
-    tertiary-fixed: #d9e2ff;
-    tertiary-fixed-dim: #bac6ea;
-    on-tertiary: #ffffff;
-    on-tertiary-fixed: #0e1b37;
-    on-tertiary-fixed-variant: #3a4664;
-    tertiary-container: #d9e2ff;
-    on-tertiary-container: #0e1b37;
-    error: #ba1a1a;
-    on-error: #ffffff;
-    error-container: #ffdad6;
-    on-error-container: #410002;
-    surface: #f5fafb;
-    on-surface: #171d1e;
-    on-surface-variant: #3f484a;
-    outline: #6f797a;
-    outline-variant: #bfc8ca;
-    shadow: #000000;
-    scrim: #000000;
-    inverse-surface: #2b3132;
-    inverse-on-surface: #ecf2f3;
-    inverse-primary: #81d3e0;
-    surface-dim: #d5dbdc;
-    surface-bright: #f5fafb;
-    surface-container-lowest: #ffffff;
-    surface-container-low: #eff5f6;
-    surface-container: #e9eff0;
-    surface-container-high: #e3e9ea;
-    surface-container-highest: #dee3e4;
+    background: #020315B2;
+
+    selected-text: #3A3742;
+    selected-background: #4DA4A5;
+
+    primary: #4DA4A5;
+    primary-fixed: #67DBDC;
+    primary-fixed-dim: #67DBDC33;
+    on-primary: #F2FAFF;
+    on-primary-fixed: #F2FAFF;
+    primary-container: #4DA4A50D;
+    on-primary-container: #F2FAFF;
+
+    secondary: #5194B8;
+    secondary-fixed: #6CC5F5;
+    secondary-fixed-dim: #6CC5F533;
+    on-secondary: #F2FAFF;
+    secondary-container: #5194B80D;
+    on-secondary-container: #F2FAFF;
+
+    tertiary: #B9AEB2;
+    tertiary-fixed: #F7E8EE;
+    tertiary-fixed-dim: #F7E8EE33;
+    on-tertiary: #F2FAFF;
+    tertiary-container: #B9AEB20D;
+    on-tertiary-container: #F2FAFF;
+
+    prompt-text: #F2FAFF;
+    prompt-background: transparent;
+
+    normal-text: #F2FAFF;
+    normal-background: #BF5C880D;
+
+    window-border: #4DA4A5;
+    window-background: #BF5C880D;
+
+    surface: #020315;
+    on-surface: #F2FAFF;
+    surface-dim: #E4EFF620;
+    surface-bright: #E4EFF6;
+    surface-container-lowest: #A0A7AC0A;
+    surface-container-low: #A0A7AC11;
+    surface-container: #A0A7AC22;
+    surface-container-high: #E4EFF633;
+    surface-container-highest: #E4EFF644;
+
+    scrollbar-filled: #4DA4A5;
+    scrollbar-empty: #3A3742;
+
+    outline: #A0A7AC;
+    outline-variant: #A0A7AC66;
+    shadow: #3A374280;
+    scrim: #3A374233;
+
+    error: #A3B4BF;
+    on-error: #F2FAFF;
+    error-message: #A3B4BF;
+    error-message-border: #E4EFF6;
+
+    inverse-surface: #3A3742;
+    inverse-on-surface: #E4EFF6;
+    inverse-primary: #67DBDC;
+
+    accent: #5194B8;
 }
