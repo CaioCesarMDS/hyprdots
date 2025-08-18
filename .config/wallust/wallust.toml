@@ -1,17 +1,12 @@
 # wallust v3.4
-#
-# You can copy this file to ~/.config/wallust/wallust.toml (keep in mind is a sample config)
-
-# SIMPLE TUTORIAL, or `man wallust.5`:
-# https://explosion-mental.codeberg.page/wallust/
-#
-# If comming from v2: https://explosion-mental.codeberg.page/wallust/v3.html#wallusttoml
 
 # Global section - values below can be overwritten by command line flags
 
 # How the image is parse, in order to get the colors:
 # full - resized - wal - thumb -  fastresize - kmeans
 backend = "fastresize"
+
+threshold = 10
 
 # What color space to use to produce and select the most prominent colors:
 # lab - labmixed - lch - lchmixed
@@ -23,7 +18,7 @@ color_space = "lab"
 # harddark - harddark16 - harddarkcomp - harddarkcomp16
 # softdark - softdark16 - softdarkcomp - softdarkcomp16
 # softlight - softlight16 - softlightcomp - softlightcomp16
-palette = "harddark"
+palette = "harddark16"
 
 # Ensures a "readable contrast" (OPTIONAL, disabled by default)
 # Should only be enabled when you notice an unreadable contrast frequently happening
@@ -45,15 +40,25 @@ check_contrast = true
 # ¡ If either one is a directory, then both SHOULD be one. !
 # zathura = { template = 'zathura', target = '~/.config/zathura/zathurarc' }
 
+gtk3 = { src = 'gtk.css', dst = '~/.config/gtk-3.0/colors.css' }
+gtk4 = { src = 'gtk.css', dst = '~/.config/gtk-4.0/colors.css' }
+
 hypr = { src = "hyprland.conf", dst = "~/.config/hypr/config/borders.conf" }
 
 kitty = { src = 'kitty.conf', dst = '~/.config/kitty/colors.conf' }
 
+pywalfox = { src = "pywalfox-colors.json", dst = "~/.cache/wal/colors.json" }
+
 rofi = { src = 'rofi.rasi', dst = '~/.config/rofi/colors.rasi' }
 
-swaync = { src = 'swaync.css', dst = '~/.config/swaync/colors.css' }
+swaync = { src = 'colors.css', dst = '~/.config/swaync/colors.css' }
 
-waybar = { src = 'waybar.css', dst = '~/.config/waybar/colors.css' }
+vscode = { src = 'vscode.json', dst = '~/.cache/wallust/colors.json' }
+vscode2 = { src = 'vscode', dst = '~/.cache/wallust/colors' }
 
-wlogout = { src = 'wlogout.css', dst = '~/.config/wlogout/colors.css' }
+waybar = { src = 'colors.css', dst = '~/.config/waybar/colors.css' }
+
+wlogout = { src = 'colors.css', dst = '~/.config/wlogout/colors.css' }
+
+
 

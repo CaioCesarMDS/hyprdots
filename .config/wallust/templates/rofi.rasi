@@ -1,18 +1,17 @@
 * {
-    /* seleção / foco */
-    selected-text: {{color0}};                 /* geralmente texto escuro sobre seleção clara */
-    selected-background: {{color4}};           /* primary (azul em muitos esquemas) */
+    background: {{background}}B2;
 
-    /* primárias / destaques */
+    selected-text: {{color0}};
+    selected-background: {{color4}};
+
     primary: {{color4}};
     primary-fixed: {{color12}};
-    primary-fixed-dim: {{color12}}33;         /* variação translúcida da primary-fixed */
+    primary-fixed-dim: {{color12}}33;
     on-primary: {{foreground}};
     on-primary-fixed: {{foreground}};
-    primary-container: {{color4}}0D;          /* container levemente colorido */
+    primary-container: {{color4}}0D;
     on-primary-container: {{foreground}};
 
-    /* secundárias / acentos */
     secondary: {{color5}};
     secondary-fixed: {{color13}};
     secondary-fixed-dim: {{color13}}33;
@@ -20,7 +19,6 @@
     secondary-container: {{color5}}0D;
     on-secondary-container: {{foreground}};
 
-    /* terciárias / info */
     tertiary: {{color2}};
     tertiary-fixed: {{color10}};
     tertiary-fixed-dim: {{color10}}33;
@@ -28,12 +26,11 @@
     tertiary-container: {{color2}}0D;
     on-tertiary-container: {{foreground}};
 
-    /* texto / janelas / superfície */
     prompt-text: {{foreground}};
     prompt-background: transparent;
 
     normal-text: {{foreground}};
-    normal-background: {{color6}}0D;          /* seu exemplo: color6 com alpha 0D (13%) */
+    normal-background: {{color6}}0D;
 
     window-border: {{color4}};
     window-background: {{color6}}0D;
@@ -48,27 +45,22 @@
     surface-container-high: {{color7}}33;
     surface-container-highest: {{color7}}44;
 
-    /* scroll / UI small elements */
     scrollbar-filled: {{color4}};
     scrollbar-empty: {{color0}};
 
-    /* outlines / sombras / scrim */
     outline: {{color8}};
     outline-variant: {{color8}}66;
-    shadow: {{color0}}80;                      /* sombra semitransparente */
+    shadow: {{color0}}80;
     scrim: {{color0}}33;
 
-    /* erros / avisos */
     error: {{color1}};
     on-error: {{foreground}};
     error-message: {{color1}};
     error-message-border: {{color15}};
 
-    /* inversos / alto contraste */
     inverse-surface: {{color0}};
     inverse-on-surface: {{color7}};
     inverse-primary: {{color12}};
 
-    /* pequenos acentos */
     accent: {{color5}};
 }
