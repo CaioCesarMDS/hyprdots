@@ -5,7 +5,7 @@
   "layer": "overlay",
   "control-center-layer": "top",
   "layer-shell": true,
-  "cssPriority": "application",
+  "cssPriority": "user",
   "control-center-width": 350,
   "control-center-margin-top": 8,
   "control-center-margin-bottom": 8,
@@ -26,15 +26,7 @@
   "hide-on-clear": true,
   "hide-on-action": true,
   "script-fail-notify": true,
-  "widgets": [
-    "mpris",
-    "title",
-    "dnd",
-    "notifications",
-    "volume",
-    "backlight",
-    "buttons-grid"
-  ],
+  "widgets": ["mpris", "title", "dnd", "notifications", "volume", "backlight", "buttons-grid"],
   "widget-config": {
     "mpris": {
       "show-album-art": "when-available"
