@@ -1,4 +1,4 @@
-@import url("colors.css");
+@import url("../../.cache/wal/colors-waybar.css");
 
 * {
   all: unset;
@@ -35,7 +35,7 @@ tooltip {
 #battery:hover,
 #custom-power:hover {
   transition: all 0.3s ease;
-  color: @color9;
+  color: @color4;
 }
 
 /* Modules Left */
