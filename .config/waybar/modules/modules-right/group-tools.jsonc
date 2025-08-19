@@ -15,7 +15,7 @@
   "custom/cliphist": {
     "format": "",
     "tooltip": false,
-    "on-click": "cliphist list | wofi -dmenu | cliphist decode | wl-copy",
+    "on-click": "pkill -x cliphist || ~/.config/rofi/cliphist/cliphist.sh",
     "on-click-right": "cliphist wipe && notify-send 'History Wiped!'"
   },
   "custom/colorpicker": {
