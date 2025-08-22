@@ -1,9 +1,5 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
-* {
-    background-color: rgba(0, 0, 0, 0.70);
-}
-
 configuration {
     modi:                       "drun";
     show-icons:                 false;
@@ -15,7 +11,7 @@ window {
     height:                 32em;
     transparency:           "real";
     border-radius:          0.5em;
-    background-color:       @background-color;
+    background-color:       @background;
 }
 
 mainbox {
@@ -33,7 +29,7 @@ imagebox {
 
 inputbar {
     border-radius:          2em;
-    background-color:       @background-color;
+    background-color:       @background;
     children:               [ "textbox-prompt-colon", "entry" ];
 }
 
@@ -54,7 +50,7 @@ entry {
 }
 
 listbox {
-    background-color:       @background-color;
+    background-color:       @background;
     children:               [ "listview" ];
 }
 
@@ -75,11 +71,11 @@ element {
     padding:                0.5em;
     background-color:       transparent;
     text-color:             @foreground;
-    border-radius:          1.5em;
+    border-radius:          1em;
 }
 
 element selected.normal {
-    background-color:       @active-background;
+    background-color:       @alternate-active-background;
 }
 
 element-text {

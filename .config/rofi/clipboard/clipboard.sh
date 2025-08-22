@@ -1,140 +1,182 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 pkill -u "$USER" rofi 2>/dev/null && exit 0
 
-CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"
-FAVORITES_FILE="$CACHE_DIR/clipboard/clipboard_favorites"
-ROFI_STYLE="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/clipboard/clipboard.rasi"
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib/common.sh"
+
+readonly FAVORITES_FILE="$HOME/.cacha/clipboard/clipboard_favorites"
+readonly CLIPBOARD_THEME_FILE="$HOME/.config/rofi/clipboard/clipboard.rasi"
 
 DEL_MODE=false
 
 run_rofi() {
-    local placeholder="$1"; shift
-    rofi -dmenu \
-        -theme-str "entry { font: 'JetBrainsMono Nerd Font 24'; placeholder: '$placeholder'; }" \
-        -theme "$ROFI_STYLE" "$@"
-}
-
-ensure_favorites_dir() {
-    mkdir -p "$(dirname "$FAVORITES_FILE")"
+    rofi -dmenu -theme "$CLIPBOARD_THEME_FILE"
 }
 
 process_selections() {
-    if [ "$DEL_MODE" != true ]; then
+    if $DEL_MODE; then
         while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            decoded=$(echo -e "$line\t" | cliphist decode)
-            echo "$decoded"
+            [ -n "$line" ] && cliphist delete <<<"$line"
         done
     else
         while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            cliphist delete <<<"$line"
-            notify-send "Deleted" "$line"
-        done
-        exit 0
+            [ -n "$line" ] && echo -e "$line\t" | cliphist decode
+        done | wl-copy
     fi
 }
-
-# -------------------
-# Histórico
-# -------------------
 
 show_history() {
     mapfile -t items < <(cliphist list | sed '/^\s*$/d')
     [ ${#items[@]} -eq 0 ] && return
-    selection=$(printf '%s\n' "${items[@]}" | run_rofi " History" -multi-select -i -display-columns 2 -selected-row 1)
-    [ -z "$selection" ] && exit 0
-    process_selections <<<"$selection" | wl-copy
+
+    local list=()
+    for i in "${!items[@]}"; do
+        list+=("$((i + 1)). ${items[i]}")
+    done
+
+    selection=$(printf '%s\n' "${list[@]}" | run_rofi) || return
+
+
+    while IFS= read -r sel; do
+        idx=$(awk -F'.' '{print $1}' <<<"$sel")
+        if [[ "$idx" =~ ^[0-9]+$ ]] && [ "$idx" -ge 1 ] && [ "$idx" -le ${#items[@]} ]; then
+            echo "${items[$((idx - 1))]}"
+        fi
+    done <<<"$selection" | process_selections
 }
 
 delete_items() {
     DEL_MODE=true
-    mapfile -t items < <(cliphist list | sed '/^\s*$/d')
-    [ ${#items[@]} -eq 0 ] && return
-    printf '%s\n' "${items[@]}" | run_rofi " Delete" -multi-select -i -display-columns 2 | process_selections
+    show_history
 }
 
 clear_history() {
-    cliphist wipe && notify-send "Clipboard history cleared."
+    cliphist wipe
 }
 
-# -------------------
-# Favoritos
-# -------------------
+fav_decode_array() {
+    local -n _out=$1
+    _out=()
+    local line
+    while IFS= read -r line; do
+        _out+=("$(printf '%s' "$line" | base64 --decode | tr '\n' ' ')")
+    done <"$FAVORITES_FILE"
+}
+
+pick_from_list() {
+    local list=("$@")
+    printf '%s\n' "${list[@]}" | run_rofi
+}
 
 add_to_favorites() {
-    ensure_favorites_dir
+    ensure_directory "$(dirname "$FAVORITES_FILE")"
+
     mapfile -t items < <(cliphist list | sed '/^\s*$/d')
-    [ ${#items[@]} -eq 0 ] && return
-    selection=$(printf '%s\n' "${items[@]}" | run_rofi " Add to Favorites")
-    [ -z "$selection" ] && return
-    encoded=$(echo "$selection" | cliphist decode | base64 -w0)
-    grep -Fxq "$encoded" "$FAVORITES_FILE" 2>/dev/null || echo "$encoded" >>"$FAVORITES_FILE"
-    notify-send "Added to favorites."
+    [ ${#items[@]} -eq 0 ] && {
+        notify-send "Clipboard" "No items to favorite."
+        return
+    }
+
+    selection=$(pick_from_list "${items[@]}") || return
+
+    id=$(cut -f1 <<<"$selection")
+
+    decoded=$(printf '%s\t' "$id" | cliphist decode) || {
+        notify-send "Clipboard" "Failed to decode cliphist id: $id"
+        return
+    }
+
+    if [ -z "$decoded" ]; then
+        notify-send "Clipboard" "Decoded content empty for id: $id"
+        return
+    fi
+
+    encoded=$(printf "%s" "$decoded" | base64 -w0)
+    if ! grep -Fxq "$encoded" "$FAVORITES_FILE" 2>/dev/null; then
+        printf '%s\n' "$encoded" >>"$FAVORITES_FILE"
+        notify-send "Clipboard" "Added to favorites"
+    else
+        notify-send "Clipboard" "Already a favorite"
+    fi
 }
 
 view_favorites() {
-    [ -f "$FAVORITES_FILE" ] && [ -s "$FAVORITES_FILE" ] || { notify-send "No favorites."; return; }
-    mapfile -t favs < "$FAVORITES_FILE"
-    decoded=()
-    for f in "${favs[@]}"; do
-        decoded+=("$(echo "$f" | base64 --decode | tr '\n' ' ')")
+    [ -s "$FAVORITES_FILE" ] || {
+        notify-send "Clipboard" "No favorites."
+        return
+    }
+
+    mapfile -t favs <"$FAVORITES_FILE"
+    fav_decode_array decoded
+
+    local list=()
+    for i in "${!decoded[@]}"; do
+        list+=("$((i + 1)). ${decoded[i]}")
     done
-    selection=$(printf '%s\n' "${decoded[@]}" | run_rofi "󰓎 View Favorites")
-    [ -z "$selection" ] && return
-    idx=$(printf '%s\n' "${decoded[@]}" | grep -nxF "$selection" | cut -d: -f1)
-    [ -z "$idx" ] && { notify-send "Error"; return; }
-    echo "${favs[$((idx-1))]}" | base64 --decode | wl-copy
-    notify-send "Copied to clipboard."
+
+    selection=$(printf '%s\n' "${list[@]}" | run_rofi) || return
+
+    idx=$(awk -F'.' '{print $1}' <<<"$selection")
+
+    if [[ "$idx" =~ ^[0-9]+$ ]] && [ "$idx" -ge 1 ] && [ "$idx" -le ${#favs[@]} ]; then
+        echo "${favs[$((idx - 1))]}" | base64 --decode | wl-copy
+        notify-send "Clipboard" "#$idx copied to clipboard"
+    else
+        notify-send "Clipboard" "Invalid selection"
+    fi
 }
 
 delete_from_favorites() {
-    [ -f "$FAVORITES_FILE" ] && [ -s "$FAVORITES_FILE" ] || { notify-send "No favorites."; return; }
-    mapfile -t favs < "$FAVORITES_FILE"
-    decoded=()
-    for f in "${favs[@]}"; do
-        decoded+=("$(echo "$f" | base64 --decode | tr '\n' ' ')")
+    [ -s "$FAVORITES_FILE" ] || {
+        notify-send "Clipboard" "No favorites."
+        return
+    }
+
+    mapfile -t favs <"$FAVORITES_FILE"
+    fav_decode_array decoded
+
+    local list=()
+    for i in "${!decoded[@]}"; do
+        list+=("$((i + 1)). ${decoded[i]}")
     done
-    selection=$(printf '%s\n' "${decoded[@]}" | run_rofi " Remove Favorites")
-    [ -z "$selection" ] && return
-    idx=$(printf '%s\n' "${decoded[@]}" | grep -nxF "$selection" | cut -d: -f1)
-    [ -z "$idx" ] && { notify-send "Error"; return; }
-    sed "${idx}d" "$FAVORITES_FILE" >"$FAVORITES_FILE.tmp" && mv "$FAVORITES_FILE.tmp" "$FAVORITES_FILE"
-    notify-send "Item removed from favorites."
+
+    selection=$(printf '%s\n' "${list[@]}" | run_rofi) || return
+    idx=$(awk -F'.' '{print $1}' <<<"$selection")
+
+    if [[ "$idx" =~ ^[0-9]+$ ]] && [ "$idx" -ge 1 ] && [ "$idx" -le ${#favs[@]} ]; then
+        sed -i "${idx}d" "$FAVORITES_FILE"
+        notify-send "Clipboard" "Removed #$idx from favorites"
+    else
+        notify-send "Clipboard" "Invalid selection"
+    fi
 }
 
 clear_favorites() {
-    [ -f "$FAVORITES_FILE" ] && : >"$FAVORITES_FILE" && notify-send "All favorites cleared."
+    : >"$FAVORITES_FILE"
 }
 
-# -------------------
-# Menu principal
-# -------------------
-
-main_menu() {
-    menu_items=(" History" " Delete" "󰓎 View Favorites" "󱙩 Manage Favorites" "󰆴 Clear History")
-    selection=$(printf '%s\n' "${menu_items[@]}" | run_rofi "Clipboard Manager")
-    echo "$selection"
+manage_favorites() {
+    local manage
+    manage=$(printf '%s\n' "Add" "Delete" "Clear" | run_rofi) || return
+    case "$manage" in
+    Add) add_to_favorites ;;
+    Delete) delete_from_favorites ;;
+    Clear) clear_favorites ;;
+    esac
 }
 
 main() {
-    action="$1"; shift
-    [ -z "$action" ] && action=$(main_menu)
+    local action="${1:-}"
+    [ -z "$action" ] && action=$(printf '%s\n' "History" "Delete" "View Favorites" "Manage Favorites" "Clear History" | run_rofi)
+
     case "$action" in
-        " History") show_history ;;
-        " Delete") delete_items ;;
-        "󰓎 View Favorites") view_favorites ;;
-        "󱙩 Manage Favorites")
-            manage_menu=(" Add" " Delete" "󰆴 Clear")
-            manage=$(printf '%s\n' "${manage_menu[@]}" | run_rofi "Manage Favorites")
-            case "$manage" in
-                " Add") add_to_favorites ;;
-                " Delete") delete_from_favorites ;;
-                "󰆴 Clear") clear_favorites ;;
-            esac
-            ;;
-        "󰆴 Clear History") clear_history ;;
+    -c | --copy | "History") show_history ;;
+    "Delete") delete_items ;;
+    -f | --favorites | "View Favorites") view_favorites ;;
+    "Manage Favorites") manage_favorites ;;
+    -w | --wipe | "Clear History") clear_history ;;
+    -h | --help | *) echo "Usage: $0 [ --copy | --favorites | --wipe | --help ]" ;;
     esac
 }
 
