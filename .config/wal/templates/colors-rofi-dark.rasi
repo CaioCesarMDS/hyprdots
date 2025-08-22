@@ -1,0 +1,33 @@
+* {{
+    active-background: {color10};
+    active-foreground: {color2};
+
+    normal-background: {color0};
+    normal-foreground: {color7};
+
+    urgent-background: {color9};
+    urgent-foreground: {color5};
+
+    alternate-active-background: {color4};
+    alternate-active-foreground: {color15};
+
+    alternate-normal-background: {color8};
+    alternate-normal-foreground: {color1};
+
+    alternate-urgent-background: {color13};
+    alternate-urgent-foreground: {color3};
+
+    selected-active-background: {color6};
+    selected-active-foreground: {color14};
+
+    selected-normal-background: {color11};
+    selected-normal-foreground: {color12};
+
+    selected-urgent-background: {color13};
+    selected-urgent-foreground: {color2};
+
+    background-color: {color0};
+    background: {background};
+    foreground: {foreground};
+    border-color: {color12};
+}}
