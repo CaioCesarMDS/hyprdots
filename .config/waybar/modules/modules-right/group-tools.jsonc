@@ -6,7 +6,12 @@
       "children-class": "extras",
       "transition-left-to-right": false
     },
-    "modules": ["custom/tools", "custom/cliphist", "custom/colorpicker", "custom/bluefilter"]
+    "modules": [
+      "custom/tools",
+      "custom/cliphist",
+      "custom/colorpicker",
+      "custom/bluefilter"
+    ]
   },
   "custom/tools": {
     "format": "",

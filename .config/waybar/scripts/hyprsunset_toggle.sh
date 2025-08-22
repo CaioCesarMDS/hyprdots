@@ -10,7 +10,7 @@ if [[ "$1" != "--toggle" ]]; then
   if pgrep -x hyprsunset >/dev/null; then
     echo "󰤄"
   else
-    echo ""  
+    echo ""
   fi
   flock -u 200
   exit 0

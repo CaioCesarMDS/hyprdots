@@ -6,6 +6,10 @@
   ],
   "group/group-right": {
     "orientation": "inherit",
-    "modules": ["group/group-hardware", "group/group-tools", "group/group-system"]
+    "modules": [
+      "group/group-hardware",
+      "group/group-tools",
+      "group/group-system"
+    ]
   }
 }

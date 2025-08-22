@@ -10,20 +10,20 @@ readonly WAL_COLORS_HYPR="$CACHE_DIR/wal/colors-hyprland.conf"
 readonly HYPR_COLORS_CONF="$CONFIG_DIR/hypr/config/colors.conf"
 
 check_command() {
-    ensure_command swaync
-    ensure_command pywalfox
-    ensure_command wal
+  ensure_command swaync
+  ensure_command pywalfox
+  ensure_command wal
 }
 
 check_directories() {
-    ensure_directory "$WAL_COLORS_HYPR"
-    ensure_directory "$HYPR_COLORS_CONF"
-    ensure_directory "$CACHE_DIR/wal"
+  ensure_directory "$WAL_COLORS_HYPR"
+  ensure_directory "$HYPR_COLORS_CONF"
+  ensure_directory "$CACHE_DIR/wal"
 }
 
 hyprland_rgba_patch() {
-    local TEMP="$WAL_COLORS_HYPR.tmp"
-    awk -v OFS=" = " '
+  local TEMP="$WAL_COLORS_HYPR.tmp"
+  awk -v OFS=" = " '
         /^[[:space:]]*#/ || NF==0 { print; next }
         {
             split($0, kv, "=")
@@ -41,15 +41,15 @@ hyprland_rgba_patch() {
 }
 
 apply_colorscheme() {
-    local wall="$1"
+  local wall="$1"
 
-    check_directories
-    check_command
+  check_directories
+  check_command
 
-    wal -i "$wall"
-    hyprland_rgba_patch
+  wal -i "$wall"
+  hyprland_rgba_patch
 
-    ensure_symlink "$CACHE_DIR/wal/colors-kitty.conf" "$CONFIG_DIR/kitty/colors-kitty.conf"
-    swaync-client --reload-css
-    pywalfox update
+  ensure_symlink "$CACHE_DIR/wal/colors-kitty.conf" "$CONFIG_DIR/kitty/colors-kitty.conf"
+  swaync-client --reload-css
+  pywalfox update
 }

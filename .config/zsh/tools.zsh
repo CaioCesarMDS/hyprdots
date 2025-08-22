@@ -22,8 +22,9 @@ if command -v fzf >/dev/null 2>&1; then
 
   export FZF_CTRL_R_OPTS="--style full"
   export FZF_CTRL_T_OPTS="
-                --style full
-                --walker-skip .git,node_modules,target
-                --preview 'bat -n --color=always {} || cat {}'
-                --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+    -style full
+    --walker-skip .git,node_modules,target
+    --preview 'bat -n --color=always {} || cat {}'
+    --bind 'ctrl-/:change-preview-window(down|hidden|)'
+    "
 fi
