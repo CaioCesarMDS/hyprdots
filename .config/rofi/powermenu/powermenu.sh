@@ -1,81 +1,80 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/powermenu/"
+readonly ROFI_DIR="$HOME/.config/rofi"
+readonly POWERMENU_THEME_FILE="$ROFI_DIR/powermenu/powermenu.rasi"
+readonly CONFIRM_THEME_FILE="$ROFI_DIR/confirm/confirm.rasi"
 
-if ! command -v rofi &>/dev/null; then
-    echo "Error: rofi is not installed." >&2
-    exit 1
-fi
-
-lastlogin="$(last -n1 "$USER" \
-    | grep -E 'still logged in|logged in' \
-    | head -n1 \
-    | tr -s ' ' \
-    | awk '{print $4" "$5" "$6}')"
-
-uptime=$(uptime -p | awk '{$1=""; print substr($0,2)}')
-host=$(hostname)
-
-shutdown=''
-reboot=''
-lock='󰌾'
-hibernate='󰤄'
-suspend='󰏤'
-logout='󰍃'
-yes=''
-no='󰅙'
-
-rofi_cmd() {
-    rofi -dmenu \
-        -p " $USER@$host" \
-        -mesg " Last Login: $lastlogin |  Uptime: $uptime" \
-        -theme "${dir}/powermenu.rasi"
+get_system_info() {
+    LAST_LOGIN="$(last -n1 "$USER" |
+        grep -E 'still logged in|logged in' |
+        head -n1 |
+        tr -s ' ' |
+        awk '{print $4" "$5" "$6}')"
+    UPTIME="$(uptime -p | sed 's/^up //')"
+    HOSTNAME="$(hostname)"
 }
 
-confirm_cmd() {
-    rofi -dmenu \
-        -p "Confirmation" \
-        -mesg "Are you sure?" \
-        -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
-        -theme-str 'mainbox {children: [ "message", "listview" ];}' \
-        -theme-str 'listview {columns: 2; lines: 1;}' \
-        -theme-str 'element-text {horizontal-align: 0.5;}' \
-        -theme-str 'textbox {horizontal-align: 0.5;}' \
-        -theme "${dir}/powermenu.rasi"
+set_icons() {
+    declare -gA ACTIONS=(
+        [""]="SHUTDOWN"
+        [""]="REBOOT"
+        ["󰍃"]="LOGOUT"
+        ["󰌾"]="LOCK"
+        ["󰏤"]="SUSPEND"
+        ["󰤄"]="HIBERNATE"
+    )
+    ORDERED_ICONS=("" "" "󰍃" "󰌾" "󰏤" "󰤄")
+    ICON_YES=''
+    ICON_NO='󰅙'
 }
 
-confirm_exit() {
-    printf "%s\n%s\n" "$yes" "$no" | confirm_cmd
+confirm_action() {
+    printf "%s\n%s\n" "$ICON_YES" "$ICON_NO" |
+        rofi -dmenu -p "Confirmation" \
+            -mesg "Are you sure?" \
+            -theme "$CONFIRM_THEME_FILE"
 }
 
-run_rofi() {
-    printf "%s\n%s\n%s\n%s\n%s\n%s\n" \
-        "$lock" "$suspend" "$logout" "$hibernate" "$reboot" "$shutdown" | rofi_cmd
+show_menu() {
+    local menu_items
+    menu_items="$(printf "%s\n" "${ORDERED_ICONS[@]}")"
+    rofi -dmenu -p " $USER@$HOSTNAME" \
+        -mesg " Last Login: $LAST_LOGIN |  Uptime: $UPTIME" \
+        -theme "$POWERMENU_THEME_FILE" <<<"$menu_items"
 }
 
-run_cmd() {
-    selected="$(confirm_exit)"
-    if [[ "${selected// /}" == "${yes// /}" ]]; then
-        case "$1" in
-            --shutdown) systemctl poweroff ;;
-            --reboot) systemctl reboot ;;
-            --logout) hyprctl dispatch exit 0 ;;
-            --lock) hyprlock ;;
-            --suspend) systemctl suspend ;;
-            --hibernate) systemctl hibernate ;;
-        esac
+execute_action() {
+    local selected_icon="$1"
+    local action="${ACTIONS[$selected_icon]:-}"
+
+    [[ -z "$action" ]] && exit 1
+
+    if [[ "$action" != "LOCK" ]]; then
+        local confirmed
+        confirmed="$(confirm_action)"
+        [[ "${confirmed// /}" != "${ICON_YES// /}" ]] && return
     fi
+
+    case "$action" in
+    SHUTDOWN) systemctl poweroff ;;
+    REBOOT) systemctl reboot ;;
+    LOGOUT) hyprctl dispatch exit 0 ;;
+    LOCK) hyprlock ;;
+    SUSPEND) systemctl suspend ;;
+    HIBERNATE) systemctl hibernate ;;
+    esac
 }
 
-chosen="$(run_rofi)"
+main() {
+    pkill -u "$USER" rofi 2>/dev/null && exit 0
 
-case "$chosen" in
-    "$shutdown") run_cmd --shutdown ;;
-    "$reboot") run_cmd --reboot ;;
-    "$logout") run_cmd --logout ;;
-    "$lock") run_cmd --lock ;;
-    "$suspend") run_cmd --suspend ;;
-    "$hibernate") run_cmd --hibernate ;;
-esac
+    get_system_info
+    set_icons
+
+    local selected_icon
+    selected_icon="$(show_menu)"
+    [[ -n "$selected_icon" ]] && execute_action "$selected_icon"
+}
+
+main "$@"

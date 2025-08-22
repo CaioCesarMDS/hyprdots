@@ -1,9 +1,5 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
-* {
-    background-color: rgba(0, 0, 0, 0.90);
-}
-
 configuration {
     show-icons:             false;
     font:                   "JetBrainsMono Nerd Font 10";
@@ -20,7 +16,7 @@ window {
 
 mainbox {
     spacing:                0;
-    background-color:       @background-color;
+    background-color:       @background;
     children:               [ "inputbar", "listview", "message" ];
 }
 
@@ -47,7 +43,7 @@ dummy {
 prompt {
     padding:                12px;
     border-radius:          12px;
-    background-color:       @background-color;
+    background-color:       @background;
     text-color:             @foreground;
 }
 

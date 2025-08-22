@@ -1,0 +1,69 @@
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+configuration {
+    modi:                       "drun";
+    show-icons:                 false;
+    font:                       "JetBrainsMono Nerd Font 10";
+}
+
+window {
+    location:               center;
+    anchor:                 center;
+    fullscreen:            false;
+    width:                  20em;
+    border-radius:          0.5em;
+}
+
+mainbox {
+    children:               [ "message", "listview" ];
+    background-color:       @background-color;
+}
+
+message {
+    str:                    "Are you sure?";
+    padding:                1.5em;
+    text-color:             @foreground;
+    background-color:       @urgent-background;
+}
+
+textbox {
+    background-color:       inherit;
+    text-color:             inherit;
+    vertical-align:         0.5;
+    horizontal-align:       0.5;
+}
+
+listview {
+    columns:                2;
+    lines:                  1;
+    padding:                1em;
+    spacing:                1em;
+}
+
+element-text {
+    horizontal-align:       0.5;
+}
+
+textbox {
+    horizontal-align:       0.5;
+}
+
+element {
+    padding:                16px 8px;
+    border-radius:          12px;
+    background-color:       @selected-normal-background;
+    text-color:             @foreground;
+}
+
+element-text {
+    font:                   "JetBrains Mono Nerd Font 32";
+    background-color:       transparent;
+    text-color:             inherit;
+    vertical-align:         0.5;
+    horizontal-align:       0.5;
+}
+
+element selected.normal {
+    background-color:       @urgent-background;
+    text-color:             @foreground;
+}
