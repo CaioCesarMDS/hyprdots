@@ -13,20 +13,21 @@
     "tooltip": false
   },
   "cpu": {
-    "format": "󰍛",
+    "format": "󰍛 {usage}%",
     "tooltip": true
   },
   "memory": {
-    "format": "",
+    "format": " {percentage}%",
     "tooltip": true
   },
   "disk": {
-    "format": "",
+    "format": " {percentage_free}%",
     "tooltip": true
   },
   "temperature": {
+    "format": "{icon} {temperatureC}°C",
     "critical-threshold": 80,
-    "format": "",
-    "tooltip": true
+    "tooltip": true,
+    "format-icons": ["", "", "", ""]
   }
 }

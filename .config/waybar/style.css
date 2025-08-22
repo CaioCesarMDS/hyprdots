@@ -4,7 +4,7 @@
   all: unset;
   border: none;
   box-shadow: none;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-family: "JetBrainsMono Nerd Font Mono";
   min-height: 2rem;
 }
@@ -42,7 +42,8 @@ tooltip {
 
 #custom-notification,
 #clock,
-#tray {
+#tray,
+#mpris {
   margin: 0.3rem 0 0 0.6rem;
   padding: 0 1rem;
   transition: all 0.3s ease;
@@ -52,11 +53,14 @@ tooltip {
 }
 
 #custom-notification {
-  padding: 0 1rem;
   font-size: 1.3rem;
 }
 
 #clock {
+  font-size: 1rem;
+}
+
+#mpris {
   font-size: 1rem;
 }
 
@@ -111,6 +115,25 @@ tooltip {
   color: @color7;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+/* Left Components*/
+#cpu,
+#custom-cliphist,
+#bluetooth {
+  padding-left: 1rem;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+/* Rigth Components */
+#disk,
+#custom-bluefilter,
+#custom-power {
+  padding-right: 1rem;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 #cpu,
@@ -120,19 +143,31 @@ tooltip {
 #custom-cliphist,
 #custom-colorpicker,
 #custom-bluefilter {
-  margin: 0.3rem 0 0 0.6rem;
-  padding: 0 1rem;
+  margin-top: 0.3rem;
   color: @color7;
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+}
+
+#memory,
+#temperature,
+#custom-colorpicker {
+  padding: 0 0.8rem;
+}
+
+#cpu,
+#memory,
+#disk,
+#temperature {
+  font-size: 1rem;
 }
 
 #temperature {
-  font-size: 1.2rem;
+  padding-left: 0.4rem;
+  font-size: 0.9rem;
 }
 
-#custom-bluefilter {
-  font-size: 1.3rem;
+#custom-cliphist {
+  margin-left: 0.6rem;
 }
 
 #bluetooth,
@@ -149,17 +184,12 @@ tooltip {
 #bluetooth {
   margin-left: 0.6rem;
   font-size: 1.09rem;
-  border-bottom-left-radius: 8px;
-  border-top-left-radius: 8px;
 }
 
 #battery {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 #custom-power {
   margin-right: 0.6rem;
-  font-size: 1.2rem;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px;
 }
