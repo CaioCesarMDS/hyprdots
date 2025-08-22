@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launcher/"
+pkill -u "$USER" rofi 2>/dev/null && exit 0
 
-if ! command -v rofi &>/dev/null; then
-    echo "Error: rofi is not installed." >&2
-    exit 1
-fi
+readonly LAUNCHER_THEME_FILE="$HOME/.config/rofi/launcher/launcher.rasi"
 
-rofi \
-    -show drun \
-    -theme ${dir}/launcher.rasi
+[ -f "$LAUNCHER_THEME_FILE" ] || { echo "File not found: $LAUNCHER_THEME_FILE" >&2; exit 1; }
+
+rofi -show drun -theme "$LAUNCHER_THEME_FILE"
